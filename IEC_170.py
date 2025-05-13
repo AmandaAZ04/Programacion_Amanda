@@ -1,43 +1,9 @@
 from version.version import version
-from auxiliares.listas import lnombre,lprecio,lstock
+from auxiliares.listas import lnombre,lprecio,lstock,fn_actualizar_lista
+from auxiliares.validacion_numeros import fn_get_num_valido
 
 # Sistema de gestion de inventario para una tienda
 # Autor: Amanda Álvarez Álvarez
-
-def fn_get_num_valido( mensaje ):
-    """
-    funcion para validar el ingreso de un valor numerico.
-    No termina hasta que el valor ingresado es válido
-    """
-    validos = ["0","1","2","3","4","5","6","7","8","9","-","."]
-    malopos = False
-    repite = True
-    num = 0
-    while repite:
-        num = input( mensaje )
-        l = len( num ) #Obtener el largo
-        malochar = False
-        malog = False
-        contg = 0
-        contp = 0
-        for i in range( l ):
-            if not num[i] in validos:
-                malochar = True
-            if num[i] == "-":
-                contg = contg + 1
-            if num[i] == ".":
-                contp = contp + 1
-        malopos = contg == 1 and num[0] != "-"
-        malog = contg > 1
-        malop = contp > 1
-        if malochar or malog or malopos or malop:
-            repite = True
-            print("La entrada no es válida.")
-        else:
-            repite = False
-    numero = float( num )
-    return( numero )
-#fn_get_valida_num
 
 def fn_mostrar_producto(prod, precio, stock):
     """
@@ -84,10 +50,13 @@ try:
         if (op == "1"):
             nom = input("Nombre del producto: ")
             lnombre.append( nom )
+            lnombre = lnombre
             precio = fn_get_num_valido("Precio del producto: ")     #float(input("Precio del producto: "))
             lprecio.append( precio )
+            lprecio = lprecio
             canti = fn_get_num_valido("Cantidad del producto: ")    #int(input("Cantidad del producto: "))
             lstock.append( int(canti) )
+            lstock = lstock
             print(f"Se ha agregado {nom}, con el precio {precio} y el stock {canti}")
 
         #****** Listar producto
