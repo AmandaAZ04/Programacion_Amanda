@@ -1,4 +1,6 @@
-import version.version
+from version.version import version
+from auxiliares.listas import lnombre,lprecio,lstock
+
 # Sistema de gestion de inventario para una tienda
 # Autor: Amanda Álvarez Álvarez
 
@@ -67,13 +69,9 @@ def fn_buscar(lista, nombre):
 # PROGRAMA PRINCIPAL (PP)
 # Listas para administrar los productos
 try:
-    lnombre = ["Plumon", "Borrador", "Pizarra"]
-    lprecio = [1280.0, 3500.0, 13500.0]
-    lstock = [20, 8, 10]
-
     salir = False
     while not salir:
-        print(f" *** Menú {version.version.version} ***")
+        print(f" *** Menú {version} ***")
         print("[1] Agrega un producto")
         print("[2] Listar productos")
         print("[3] Buscar por nombre")
