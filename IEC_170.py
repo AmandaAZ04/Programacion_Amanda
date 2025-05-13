@@ -50,13 +50,11 @@ try:
         if (op == "1"):
             nom = input("Nombre del producto: ")
             lnombre.append( nom )
-            lnombre = lnombre
             precio = fn_get_num_valido("Precio del producto: ")     #float(input("Precio del producto: "))
             lprecio.append( precio )
-            lprecio = lprecio
             canti = fn_get_num_valido("Cantidad del producto: ")    #int(input("Cantidad del producto: "))
             lstock.append( int(canti) )
-            lstock = lstock
+            fn_actualizar_lista
             print(f"Se ha agregado {nom}, con el precio {precio} y el stock {canti}")
 
         #****** Listar producto
