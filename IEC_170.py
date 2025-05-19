@@ -74,7 +74,11 @@ try:
                 fn_mostrar_producto(lnombre[pos], lprecio[pos], lstock[pos])
                 resp = input("Seguro que desea modificar [si/no]: ")
                 if resp.upper() == "SI":    # Nos evitamos el si-Si-sI
-                    cant = fn_get_num_valido("Ingrese nueva cantidad: ") #int( input("Ingrese nueva cantidad: "))
+                    nombre = input("Ingrese nuevo nombre: ")
+                    lnombre[pos] = nombre
+                    precio = fn_get_num_valido("Ingrese nuevo precio: ")
+                    lprecio[pos] = int(precio)
+                    cant = fn_get_num_valido("Ingrese nueva cantidad: ")
                     lstock[pos] = int(cant)
                     print(f"Stock de {nom} modificado!!.")
                 else:
