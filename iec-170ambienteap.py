@@ -29,21 +29,43 @@ def fn_guardar_inventario(lnom,lpre,lsto):
     with open("Inventario.txt", "w", encoding = "utf-8") as inventario:
         largo = len(lnom)
         for i in range(largo):
-            inventario.write(lnom[i])
-            inventario.write(str(lpre[i]))
-            inventario.write(str(lsto[i]))
+            inventario.write(lnom[i] + "\n")
+            inventario.write(str(lpre[i]) + "\n")
+            inventario.write(str(lsto[i]) + "\n")
         print("Inventario grabado en inventario.txt")
+
+def fn_cargar_inventario(lnom,lpre,lsto):
+    try:
+        with open("inventario.txt", "r", encoding = "utf-8") as inventario:
+            lineas = inventario.readlines()
+            largo = len(lineas) #Con esto cuento el total de lineas
+            for i in range(0, largo, 3): #Cada producto son 3 lineas
+                nom = lineas[i].strip()
+                pre = float(lineas[i+1].strip())
+                sto = int(lineas[i+2].strip())
+                lnom.append(nom)
+                lpre.append(pre)
+                lsto.append(sto)
+        print("Inventario cargado exitosamente.")
+    except FileNotFoundError:
+        print("No se encontró el inventario, usado por defecto.")
+#        lnom = ["Plumon", "Borrador", "Pizarra"]
+#        lpre = [1280.0, 3500.0, 13500.0]
+#        lsto = [20, 8, 10]
+    except Exception as error:
+        print("Error al cargar el inventario:", error)
 
 
 
 #PROGRAMA PRINCIPAL (PP)
 # listas para administrar los productos
+lnombre = []
+lprecio = []
+lstock = []
+
 try:
     version = "v2.1.0"
-    lnombre = ["Plumon", "Borrador", "Pizarra"]
-    lprecio = [1280.0, 3500.0, 13500.0]
-    lstock = [20, 8, 10]
-
+    fn_cargar_inventario(lnombre, lprecio, lstock)
     salir = False
     while not salir:
         print(f" *** Menú {version} ***")
