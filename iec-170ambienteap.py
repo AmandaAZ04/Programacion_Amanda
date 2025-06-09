@@ -3,6 +3,7 @@
 
 #import iec170funciones
 from iec170funciones import *
+import pickle
 
 """
 version MAJOR.MINOR.PATCH
@@ -25,7 +26,7 @@ PATCH: (parche o revisión): Se incrementa, cuando se corrigen errores en el sis
 #                  agregar control de keyboardInterrupt v2.0.1
 #       03/06/2025 Se modulariza cada opcion del menu v2.1.0
 
-def fn_guardar_inventario(lnom,lpre,lsto):
+def fn_guardar_inventario_txt (lnom,lpre,lsto):
     with open("Inventario.txt", "w", encoding = "utf-8") as inventario:
         largo = len(lnom)
         for i in range(largo):
@@ -34,7 +35,7 @@ def fn_guardar_inventario(lnom,lpre,lsto):
             inventario.write(str(lsto[i]) + "\n")
         print("Inventario grabado en inventario.txt")
 
-def fn_cargar_inventario(lnom,lpre,lsto):
+def fn_cargar_inventario_txt (lnom,lpre,lsto):
     try:
         with open("inventario.txt", "r", encoding = "utf-8") as inventario:
             lineas = inventario.readlines()
@@ -55,6 +56,10 @@ def fn_cargar_inventario(lnom,lpre,lsto):
     except Exception as error:
         print("Error al cargar el inventario:", error)
 
+def fn_guardar_inventario_bin (lnom,lpre,lsto):
+    with open("Inventario.dat", "wb") as inventario:
+        pickle.dump((lnom, lpre, lsto), inventario) #dump pasa lo de la memoria al disco
+    print("Inventario grabado en inventario.dat")
 
 
 #PROGRAMA PRINCIPAL (PP)
@@ -65,7 +70,7 @@ lstock = []
 
 try:
     version = "v2.1.0"
-    fn_cargar_inventario(lnombre, lprecio, lstock)
+    fn_cargar_inventario_txt (lnombre, lprecio, lstock)
     salir = False
     while not salir:
         print(f" *** Menú {version} ***")
@@ -99,7 +104,8 @@ try:
         #Salir del programa
         if (op == "6"):
             salir = True
-            fn_guardar_inventario(lnombre,lprecio,lstock)
+            #fn_guardar_inventario_txt (lnombre,lprecio,lstock)
+            fn_guardar_inventario_bin(lnombre, lprecio, lstock)
             print("Hasta luego")
 
 except KeyboardInterrupt as error:
