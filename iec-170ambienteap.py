@@ -3,7 +3,7 @@
 
 #import iec170funciones
 from iec170funciones import *
-import pickle
+
 
 """
 version MAJOR.MINOR.PATCH
@@ -24,42 +24,9 @@ PATCH: (parche o revisión): Se incrementa, cuando se corrigen errores en el sis
 #       29/04/2025 Cambio de paradigma, inicio el trabajo con funciones v2.0.0
 #       05/05/2025 Se reemplaza el buscar y mostrar producto por funciones y se 
 #                  agregar control de keyboardInterrupt v2.0.1
-#       03/06/2025 Se modulariza cada opcion del menu v2.1.0
-
-def fn_guardar_inventario_txt (lnom,lpre,lsto):
-    with open("Inventario.txt", "w", encoding = "utf-8") as inventario:
-        largo = len(lnom)
-        for i in range(largo):
-            inventario.write(lnom[i] + "\n")
-            inventario.write(str(lpre[i]) + "\n")
-            inventario.write(str(lsto[i]) + "\n")
-        print("Inventario grabado en inventario.txt")
-
-def fn_cargar_inventario_txt (lnom,lpre,lsto):
-    try:
-        with open("inventario.txt", "r", encoding = "utf-8") as inventario:
-            lineas = inventario.readlines()
-            largo = len(lineas) #Con esto cuento el total de lineas
-            for i in range(0, largo, 3): #Cada producto son 3 lineas
-                nom = lineas[i].strip()
-                pre = float(lineas[i+1].strip())
-                sto = int(lineas[i+2].strip())
-                lnom.append(nom)
-                lpre.append(pre)
-                lsto.append(sto)
-        print("Inventario cargado exitosamente.")
-    except FileNotFoundError:
-        print("No se encontró el inventario, usado por defecto.")
-#        lnom = ["Plumon", "Borrador", "Pizarra"]
-#        lpre = [1280.0, 3500.0, 13500.0]
-#        lsto = [20, 8, 10]
-    except Exception as error:
-        print("Error al cargar el inventario:", error)
-
-def fn_guardar_inventario_bin (lnom,lpre,lsto):
-    with open("Inventario.dat", "wb") as inventario:
-        pickle.dump((lnom, lpre, lsto), inventario) #dump pasa lo de la memoria al disco
-    print("Inventario grabado en inventario.dat")
+#       03/06/2025 Se modulariza cada opcion del menu, v2.1.0
+#       10/06/2025 Se crean funciones para administrar el inventario en archivos 
+#                  texto y binario v3.0.0
 
 
 #PROGRAMA PRINCIPAL (PP)
@@ -67,10 +34,10 @@ def fn_guardar_inventario_bin (lnom,lpre,lsto):
 lnombre = []
 lprecio = []
 lstock = []
-
 try:
-    version = "v2.1.0"
-    fn_cargar_inventario_txt (lnombre, lprecio, lstock)
+    version = "v3.0.0"
+    # fn_cargar_inventario_txt(lnombre, lprecio, lstock)
+    fn_cargar_inventario_bin(lnombre, lprecio, lstock)
     salir = False
     while not salir:
         print(f" *** Menú {version} ***")
@@ -79,32 +46,35 @@ try:
         print("[3] Buscar por nombre")
         print("[4] Eliminar producto")
         print("[5] Modificar cantidad")
-        print("[6] Salir")
+        print("[6] Exportar Inventario")
+        print("[7] Salir")
         op = input("Opcion: ")
         #****** Agrega producto 
         if (op == "1"):  
-            fn_agregar_producto(lnombre,lprecio,lstock)
+            fn_agregar_producto(lnombre, lprecio, lstock)
 
         #****** Listar producto 
         if (op == "2"):  
-            fn_listar_producto(lnombre,lprecio,lstock)
+            fn_listar_producto(lnombre, lprecio, lstock)
 
         #****** Buscar por Nombre
         if (op == "3"):  
-            fn_buscar_producto(lnombre,lprecio,lstock)
+            fn_buscar_producto(lnombre, lprecio, lstock)
 
         #****** Eliminar por Nombre
         if (op == "4"):
-            fn_eliminar_producto(lnombre,lprecio,lstock)
+            fn_eliminar_producto(lnombre, lprecio, lstock)
 
         #****** Modificar Cantidad
         if (op == "5"):
-            fn_modificar_producto(lnombre,lprecio,lstock)
-
-        #Salir del programa
+            fn_modificar_producto(lnombre, lprecio, lstock)
+        
         if (op == "6"):
+            fn_exportar_inventario_csv(lnombre, lprecio, lstock)
+
+        if (op == "7"):
             salir = True
-            #fn_guardar_inventario_txt (lnombre,lprecio,lstock)
+            # fn_guardar_inventario_txt(lnombre, lprecio, lstock)
             fn_guardar_inventario_bin(lnombre, lprecio, lstock)
             print("Hasta luego")
 
