@@ -1,3 +1,5 @@
+import pickle
+
 def fn_get_num_valido(mensaje):
     """
     funcion para validar el ingreso de un valor numérico.
@@ -61,7 +63,7 @@ def fn_buscar(lista, nombre):
         return -1    #retornamos -1 si no lo encuentra
     #buscar()
 
-def fn_agregar_producto(lnom,lpre,lsto):
+def fn_agregar_producto(lnom, lpre, lsto):
     nom = input("Nombre del producto: ")    
     lnom.append( nom ) 
     precio = fn_get_num_valido("Precio del producto: ") #float(input("Precio del producto: ") )
@@ -69,24 +71,21 @@ def fn_agregar_producto(lnom,lpre,lsto):
     canti = fn_get_num_valido("Cantidad del producto: ") #int(input("Cantidad del producto: ") )
     lsto.append( int(canti)) 
     print(f"Se ha agregado {nom}, con el precio {precio} y el stock {canti}")
-    #fn_agregar_producto()
 
-def fn_listar_producto(lnom,lpre,lsto):
+def fn_listar_producto(lnom, lpre, lsto):
     largo = len (lnom)
     for i in range(largo):
         fn_mostrar_producto(lnom[i], lpre[i], lsto[i])
-    #fn_listar_producto()
 
-def fn_buscar_producto(lnom,lpre,lsto):
+def fn_buscar_producto(lnom, lpre, lsto):
     nom = input("Nombre del producto a buscar: ")    
     pos = fn_buscar(lnom, nom)
     if pos == -1:
         print(f"El producto {nom} no está en el inventario")
     else:
         fn_mostrar_producto(lnom[pos], lpre[pos], lsto[pos])
-    #fn_buscar_producto()
 
-def fn_eliminar_producto(lnom,lpre,lsto):
+def fn_eliminar_producto(lnom, lpre, lsto):
     nom = input("Nombre del producto a Eliminar: ")    
     pos = fn_buscar(lnom, nom)
     if pos != -1: #indica que el producto si está
@@ -101,9 +100,8 @@ def fn_eliminar_producto(lnom,lpre,lsto):
             print(f"Producto {nom} no se ha eliminado.")
     else:
         print(f"El producto {nom} no está en el inventario")
-    #fn_eliminar_producto()
 
-def fn_modificar_producto(lnom,lpre,lsto):
+def fn_modificar_producto(lnom, lpre, lsto):
     nom = input("Nombre del producto a Modificar: ")   
     pos = fn_buscar(lnom,nom) 
     if pos == -1: # o sea, no está
@@ -117,4 +115,58 @@ def fn_modificar_producto(lnom,lpre,lsto):
             print(f"Stock de {nom} modificado!!.")
         else:
             print(f"Producto {nom} no se ha modificado.")
-    #fn_modificar_producto()
+
+def fn_exportar_inventario_csv (lnom, lpre, lsto):
+    with open("inventario.csv","w",encoding = "utf-8") as inventario:
+        largo = len (lnom)
+        for i in range(largo):
+            inventario.write(lnom[i] + "; "+str( lpre[i]) + "; "+ str( lsto[i]) + "\n" )
+        print("inventario Exportado en inventario.csv")
+
+def fn_guardar_inventario_txt (lnom, lpre, lsto):
+    with open("inventario.txt","w",encoding = "utf-8") as inventario:
+        largo = len (lnom)
+        for i in range(largo):
+            inventario.write(lnom[i]+ "\n")
+            inventario.write(str( lpre[i]) + "\n" )
+            inventario.write(str( lsto[i]) + "\n" )
+        print("inventario grabado en inventario.txt")
+
+def fn_cargar_inventario_txt (lnom, lpre, lsto):
+    try:
+        with open("inventario.txt", "r", encoding="utf-8") as inventario:
+            lineas = inventario.readlines()
+            largo = len ( lineas ) #cuento el total de líneas
+            for  i in range (0, largo, 3 ): #cada producto son 3 líneas
+                nom = lineas[i].strip()
+                pre = float(lineas[i+1].strip())
+                sto = int(lineas[i+2].strip())
+                lnom.append( nom )
+                lpre.append( pre )
+                lsto.append( sto )
+        print("Inventario cargado exitosamente.")
+    except FileNotFoundError:
+        print("No se encontró el inventario, usando por defecto")
+        # lnom = ["Plumon", "Borrador", "Pizarra"]
+        # lpre = [1280.0, 3500.0, 13500.0]
+        # lsto = [20,8, 10]
+    except Exception as err:
+        print("Error al cargar el inventario:", err)
+
+def fn_guardar_inventario_bin (lnom, lpre, lsto):
+    with open("inventario.dat","wb") as inventario:
+        pickle.dump((lnom, lpre, lsto), inventario)
+    print("inventario grabado en inventario.dat")
+
+def fn_cargar_inventario_bin(lnom, lpre, lsto):
+    try:
+        with open("inventario.dat","rb") as inventario:
+            datos = pickle.load(inventario)
+            lnom.extend(datos[0])
+            lpre.extend(datos[1])
+            lsto.extend(datos[2])
+        print("Inventario cargado exitosamente.")
+    except FileNotFoundError:
+        print("No se encontró el inventario, inventario vacio")
+    except Exception as error:
+        print("Oops!!, algo salió mal, error:", error)
