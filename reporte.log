@@ -1,0 +1,17 @@
+2025-07-08 12:03:40,682 - ERROR - Se ha intentado ingresar con usuario aa inexistente
+2025-07-08 12:03:49,482 - WARNING - El usuario jdiaz se equivoc� en la contrase�a
+2025-07-08 12:03:57,849 - INFO - Ha ingresado el usuario jdiaz
+2025-07-08 12:09:02,478 - ERROR - Se ha intentado ingresar con usuario as inexistente
+2025-07-08 12:09:12,477 - WARNING - El usuario jdiaz se equivocó en la contraseña
+2025-07-08 12:09:22,478 - INFO - Ha ingresado el usuario jdiaz
+2025-07-08 12:11:19,888 - ERROR - Se ha intentado ingresar con usuario acid inexistente
+2025-07-08 12:11:42,257 - WARNING - El usuario acid se equivocó en la contraseña
+2025-07-08 12:16:06,130 - ERROR - El programa terminó abruptamente por Ctrl-C
+2025-07-08 12:17:13,314 - ERROR - El programa terminó abruptamente por Ctrl-C
+Traceback (most recent call last):
+  File "t:\Git_Amanda\Programacion_Amanda\Programacion_Amanda\reportelog.py", line 36, in <module>
+    control_acceso()
+  File "t:\Git_Amanda\Programacion_Amanda\Programacion_Amanda\reportelog.py", line 20, in control_acceso
+    cuenta = input("Usuario: ")
+             ^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt
